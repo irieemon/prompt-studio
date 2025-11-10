@@ -65,30 +65,28 @@ export function ViolationList({ result }: ViolationListProps) {
                   <span className="font-semibold">"{violation.pattern}"</span>
                 </AlertTitle>
 
-                <AlertDescription className="space-y-3 text-sm">
-                  <p className="text-sm">
-                    <span className="font-medium">Why this is flagged: </span>
-                    {violation.explanation}
-                  </p>
+                <AlertDescription className="space-y-4">
+                  <div className="space-y-1">
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Why this is flagged</p>
+                    <p className="text-sm leading-relaxed">{violation.explanation}</p>
+                  </div>
 
                   {violation.suggestion && (
-                    <div className="p-3 rounded-md bg-muted">
-                      <div className="flex items-start gap-2">
-                        <span className="text-sm">💡</span>
-                        <div className="flex-1 space-y-1">
-                          <p className="text-sm">
-                            <span className="font-medium">Suggested Alternative: </span>
-                            <span className="font-semibold text-foreground whitespace-nowrap">{violation.suggestion}</span>
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            Replace "{violation.pattern}" with this copyright-safe alternative
-                          </p>
+                    <div className="p-4 rounded-lg bg-muted/50 border border-border space-y-2">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-base">💡</span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium mb-1">Suggested Alternative</p>
+                          <p className="text-base font-semibold text-foreground">{violation.suggestion}</p>
                         </div>
                       </div>
+                      <p className="text-xs text-muted-foreground pl-6">
+                        Use this instead of "{violation.pattern}"
+                      </p>
                     </div>
                   )}
 
-                  <p className="text-xs text-muted-foreground italic">
+                  <p className="text-xs text-muted-foreground italic border-l-2 border-muted-foreground/20 pl-3">
                     {severityConfig.description}
                   </p>
                 </AlertDescription>
