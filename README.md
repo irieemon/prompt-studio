@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Prompt Studio
+
+A copyright-safe AI image prompt checker and generator. This tool helps you detect copyright violations in your image generation prompts and suggests safe alternatives.
+
+## Features
+
+- 🔍 **Copyright Detection**: Automatically scans prompts for copyrighted characters, brands, trademarks, and artworks
+- 🎨 **Multi-Tier Severity System**: Classifies violations as severe (blocking), moderate (warning), or minor (suggestion)
+- 💡 **Smart Suggestions**: Provides copyright-safe alternatives for flagged terms
+- 🚀 **Rule-Based + LLM Hybrid**: Fast pattern matching with optional AI-powered rewriting
+- ⚡ **Built with Modern Stack**: Next.js 15, TypeScript, Tailwind CSS, Supabase, OpenAI
+- 📊 **30+ Copyright Patterns**: Pre-loaded database of common copyrighted terms
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ installed
+- A Supabase account (free tier works)
+- Optional: OpenAI API key (for Phase 2 - image generation)
+- Optional: Upstash Redis (for rate limiting)
+
+### Installation
+
+1. **Install Dependencies**
+
+```bash
+npm install
+```
+
+2. **Set Up Supabase**
+
+Apply the database migration to create the copyright_patterns table:
+
+```bash
+# If using local Supabase
+supabase start
+supabase db push
+
+# If using hosted Supabase
+supabase link --project-ref YOUR_PROJECT_REF
+supabase db push
+```
+
+3. **Configure Environment Variables**
+
+Copy the example environment file:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Edit `.env.local` and add your credentials (see `.env.local.example` for details).
+
+4. **Run the Development Server**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How It Works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **User enters a prompt** for image generation
+2. **Two-stage detection**: Exact pattern matching + fuzzy full-text search
+3. **Violations displayed** with severity badges and explanations
+4. **Suggestions provided** for copyright-safe alternatives
+5. **(Phase 2)** Generate image with approved prompt
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+Deploy to Vercel with one command:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+vercel --prod
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Don't forget to add your environment variables in the Vercel dashboard!
 
-## Deploy on Vercel
+## Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Next.js 15, TypeScript, Tailwind CSS
+- Supabase (PostgreSQL), OpenAI, Upstash Redis
+- shadcn/ui components
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+MIT
