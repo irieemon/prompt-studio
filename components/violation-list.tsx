@@ -65,25 +65,25 @@ export function ViolationList({ result }: ViolationListProps) {
                   <span className="font-semibold">"{violation.pattern}"</span>
                 </AlertTitle>
 
-                <AlertDescription className="space-y-2">
+                <AlertDescription className="space-y-3">
                   <div>
-                    <p className="text-sm font-medium">Why this is flagged:</p>
-                    <p className="text-sm">{violation.explanation}</p>
+                    <p className="text-sm font-medium mb-1">Why this is flagged:</p>
+                    <p className="text-sm break-words">{violation.explanation}</p>
                   </div>
 
                   {violation.suggestion && (
-                    <div className="mt-3 p-3 rounded-md bg-muted">
-                      <p className="text-sm font-medium mb-1">💡 Suggested Alternative:</p>
-                      <p className="text-sm font-mono bg-background px-2 py-1 rounded">
+                    <div className="p-3 rounded-md bg-muted space-y-2">
+                      <p className="text-sm font-medium">💡 Suggested Alternative:</p>
+                      <p className="text-sm font-semibold text-foreground break-words">
                         {violation.suggestion}
                       </p>
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <p className="text-xs text-muted-foreground">
                         Replace "{violation.pattern}" with this copyright-safe alternative
                       </p>
                     </div>
                   )}
 
-                  <p className="text-xs text-muted-foreground mt-2">
+                  <p className="text-xs text-muted-foreground italic">
                     {severityConfig.description}
                   </p>
                 </AlertDescription>
