@@ -65,7 +65,7 @@ export function ViolationList({ result }: ViolationListProps) {
                   <span className="font-semibold">"{violation.pattern}"</span>
                 </AlertTitle>
 
-                <AlertDescription className="space-y-4">
+                <AlertDescription className="space-y-4 !justify-items-stretch">
                   <div className="space-y-1">
                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Why this is flagged</p>
                     <p className="text-sm leading-relaxed">{violation.explanation}</p>
