@@ -87,3 +87,4 @@ Don't forget to add your environment variables in the Vercel dashboard!
 ## License
 
 MIT
+
