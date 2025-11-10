@@ -66,10 +66,10 @@ export function ViolationList({ result }: ViolationListProps) {
                 </AlertTitle>
 
                 <AlertDescription className="space-y-3 text-sm">
-                  <div>
-                    <p className="text-sm font-medium mb-1">Why this is flagged:</p>
-                    <p className="text-sm break-words">{violation.explanation}</p>
-                  </div>
+                  <p className="text-sm">
+                    <span className="font-medium">Why this is flagged: </span>
+                    {violation.explanation}
+                  </p>
 
                   {violation.suggestion && (
                     <div className="p-3 rounded-md bg-muted">
