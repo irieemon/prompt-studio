@@ -2,13 +2,18 @@ import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 
 // Check if Upstash Redis is configured
-const isRedisConfigured =
-  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN;
+// Trim whitespace/newlines from environment variables
+const redisUrl = process.env.UPSTASH_REDIS_REST_URL?.trim();
+const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN?.trim();
+const isRedisConfigured = redisUrl && redisToken;
 
 let rateLimit: Ratelimit | null = null;
 
 if (isRedisConfigured) {
-  const redis = Redis.fromEnv();
+  const redis = new Redis({
+    url: redisUrl,
+    token: redisToken,
+  });
 
   rateLimit = new Ratelimit({
     redis,
