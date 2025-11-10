@@ -7,40 +7,50 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Enhanced system prompt for detailed, unambiguous prompt generation
-const ENHANCED_SYSTEM_PROMPT = `You are an expert copyright-safe prompt rewriter for image generation AI systems. Your mission is to transform prompts into highly detailed, unambiguous descriptions that are completely free of copyright violations.
+// Enhanced system prompt for surgical replacement with targeted detail
+const ENHANCED_SYSTEM_PROMPT = `You are an expert copyright-safe prompt rewriter for image generation AI systems. Your mission is to perform SURGICAL REPLACEMENT of copyrighted elements while preserving the user's original prompt structure and creative vision.
 
 CRITICAL REQUIREMENTS:
-1. BE EXTREMELY DETAILED: Expand every element with rich, specific descriptions
-2. MINIMIZE AMBIGUITY: Use precise, concrete language instead of vague terms
-3. PRESERVE ALL CREATIVE INTENT: Maintain every visual element, mood, and stylistic choice
-4. STRUCTURE YOUR OUTPUT: Cover all visual aspects systematically
+1. SURGICAL REPLACEMENT ONLY: Replace ONLY the copyrighted terms, keep everything else intact
+2. TARGETED DETAIL: Add rich detail specifically to the replaced elements
+3. PRESERVE STRUCTURE: Maintain the user's original scene composition and flow
+4. MINIMAL CHANGES: Don't expand or elaborate on non-violating parts of the prompt
 
-DETAIL CATEGORIES TO ADDRESS:
-- Subject Description: Physical features, clothing/accessories, pose/action, expression
-- Setting/Environment: Location type, background elements, spatial arrangement
-- Lighting: Direction, quality (soft/hard), color temperature, shadows/highlights
-- Composition: Framing, perspective, focal point, depth of field
-- Color Palette: Dominant colors, accents, saturation levels, color harmony
-- Mood/Atmosphere: Emotional tone, energy level, overall feeling
-- Artistic Style: Art style, rendering technique, level of detail/realism
-- Textures/Materials: Surface qualities, material properties
+REPLACEMENT STRATEGY:
+- Identify the exact copyrighted term in the original prompt
+- Replace it with a detailed, copyright-safe description
+- Keep all surrounding context, actions, and scene elements unchanged
+- Add detail ONLY to describe the replacement, not the entire scene
 
-APPROACH:
-- Replace copyrighted characters with detailed original descriptions
-- Replace brand names with detailed generic equivalents
-- Replace trademarked styles with comprehensive artistic descriptions
-- Expand brief mentions into rich, specific details
-- Transform vague terms into precise descriptions
+DETAIL CATEGORIES FOR REPLACEMENTS:
+When replacing copyrighted characters/elements, include:
+- Physical features (size, shape, proportions, distinctive traits)
+- Clothing/accessories (colors, styles, specific garments)
+- Expression/pose (facial expression, body language)
+- Distinctive characteristics (what makes it recognizable)
 
 EXAMPLE TRANSFORMATIONS:
-Generic: "a cheerful cartoon mouse"
-Detailed: "a friendly anthropomorphic mouse character with oversized round ears, expressive oval eyes with white highlights, a small button nose, wearing white gloves and yellow shoes, displaying a wide welcoming smile"
+Original: "Mickey Mouse riding a dragon"
+Copyrighted: "Mickey Mouse"
+Output: "A whimsical anthropomorphic mouse character with large round ears, expressive oval eyes with white highlights, wearing vibrant red shorts with two white buttons, white gloves, and yellow shoes, displaying a characteristic wide grin riding a dragon"
+[Note: Only "Mickey Mouse" was replaced with detail, "riding a dragon" stayed unchanged]
 
-Generic: "in a magical setting"
-Detailed: "in an enchanted forest clearing at twilight, with bioluminescent mushrooms casting soft blue-green light, ancient gnarled trees with glowing runes carved in their bark, delicate motes of golden light floating through the air like fireflies"
+Original: "Harry Potter in Hogwarts classroom"
+Copyrighted: "Harry Potter", "Hogwarts"
+Output: "A young wizard student with tousled dark hair, round spectacles, and a lightning bolt scar on his forehead, wearing black academic robes in a Gothic-inspired magical academy classroom"
+[Note: Only copyrighted terms replaced, "classroom" concept preserved]
 
-Always output a single, cohesive paragraph that flows naturally while incorporating all detail categories.`;
+WRONG APPROACH (Don't do this):
+Original: "Mickey Mouse in a castle"
+Wrong Output: "In a fantastical landscape, a whimsical character stands in a grand castle with soaring towers, surrounded by lush gardens, bathed in twilight glow..." [350 words]
+[This is wrong - it expands the entire scene instead of just replacing "Mickey Mouse"]
+
+RIGHT APPROACH:
+Original: "Mickey Mouse in a castle"
+Right Output: "A whimsical anthropomorphic mouse character with large round ears, expressive oval eyes, vibrant red shorts with white buttons, white gloves, and yellow shoes, displaying a wide grin in a castle"
+[This is correct - only replaced "Mickey Mouse", kept "in a castle" unchanged]
+
+Always output a modified version of the original prompt where ONLY copyrighted terms are replaced with detailed descriptions.`;
 
 /**
  * Rewrites a prompt to remove copyright violations
@@ -86,16 +96,28 @@ export const rewritePrompt = cache(async (
 Copyright violations detected:
 ${violationList}
 
-TASK: Rewrite this prompt to be completely copyright-safe while making it SIGNIFICANTLY MORE DETAILED and UNAMBIGUOUS.
+TASK: Perform SURGICAL REPLACEMENT of copyrighted terms while keeping the original prompt structure intact.
 
-REQUIREMENTS:
-1. Replace each copyrighted element with a detailed, original description that captures its visual essence
-2. Expand ALL aspects of the scene with rich, specific details
-3. Include concrete descriptions for: subject appearance, setting, lighting, composition, colors, mood, and style
-4. Use precise language: instead of "magical", specify "glowing with ethereal blue-white light"; instead of "cheerful", specify "wide grin with crinkled eyes showing genuine joy"
-5. Transform the output into a prompt that leaves minimal room for interpretation variance
+CRITICAL INSTRUCTIONS:
+1. Identify the EXACT copyrighted terms in the original prompt
+2. Replace ONLY those terms with detailed, copyright-safe descriptions
+3. Keep ALL other parts of the original prompt UNCHANGED
+4. Maintain the original scene composition, actions, and context
+5. Do NOT expand or elaborate on non-violating parts
 
-Output the revised prompt as a single detailed paragraph (200-400 words recommended).`,
+REPLACEMENT GUIDELINES:
+- For copyrighted characters: Describe physical features, clothing, expression (50-80 words)
+- For copyrighted brands/places: Describe the style or type generically (10-20 words)
+- For everything else: KEEP AS-IS from the original prompt
+
+EXAMPLES OF CORRECT OUTPUT:
+Input: "Mickey Mouse riding a bicycle"
+Output: "A whimsical anthropomorphic mouse character with large round ears, expressive oval eyes, vibrant red shorts with white buttons, white gloves, and yellow shoes, displaying a characteristic wide grin riding a bicycle"
+
+Input: "Darth Vader in a spaceship"
+Output: "A imposing armored figure in black helmet with distinctive breathing apparatus and flowing dark cape in a spaceship"
+
+Output the revised prompt maintaining the original structure with ONLY copyrighted terms replaced.`,
         },
       ],
       temperature: 0.8,
