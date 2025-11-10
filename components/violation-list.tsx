@@ -78,7 +78,7 @@ export function ViolationList({ result }: ViolationListProps) {
                         <div className="flex-1 space-y-1">
                           <p className="text-sm">
                             <span className="font-medium">Suggested Alternative: </span>
-                            <span className="font-semibold text-foreground">{violation.suggestion}</span>
+                            <span className="font-semibold text-foreground whitespace-nowrap">{violation.suggestion}</span>
                           </p>
                           <p className="text-xs text-muted-foreground">
                             Replace "{violation.pattern}" with this copyright-safe alternative
