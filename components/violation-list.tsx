@@ -52,10 +52,10 @@ export function ViolationList({ result }: ViolationListProps) {
             <Alert
               key={idx}
               variant={severityConfig.variant}
-              className="relative"
+              className="relative !block w-full"
             >
-              <div className="space-y-3">
-                <AlertTitle className="flex items-center gap-2 flex-wrap">
+              <div className="space-y-3 w-full">
+                <AlertTitle className="flex items-center gap-2 flex-wrap w-full mb-3">
                   <Badge variant={severityConfig.variant}>
                     {severityConfig.icon} {severityConfig.label}
                   </Badge>
@@ -65,7 +65,7 @@ export function ViolationList({ result }: ViolationListProps) {
                   <span className="font-semibold">"{violation.pattern}"</span>
                 </AlertTitle>
 
-                <AlertDescription className="space-y-4 !justify-items-stretch">
+                <AlertDescription className="space-y-4 !block w-full">
                   <div className="space-y-1">
                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Why this is flagged</p>
                     <p className="text-sm leading-relaxed">{violation.explanation}</p>
