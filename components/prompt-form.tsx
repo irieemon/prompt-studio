@@ -1,17 +1,19 @@
 'use client';
 
-import { useActionState, useEffect, useRef } from 'react';
+import { useActionState, useEffect, useRef, useState, useCallback } from 'react';
 import { checkPrompt } from '@/app/actions/check-prompt';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ViolationList } from './violation-list';
+import { RevisedPromptCard } from './revised-prompt-card';
 import { CheckResult } from '@/types/copyright';
 
 const initialState: CheckResult | null = null;
 
 export function PromptForm() {
   const [state, formAction, pending] = useActionState(checkPrompt, initialState);
+  const [prompt, setPrompt] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -29,6 +31,17 @@ export function PromptForm() {
       }
     }
   }, [state]);
+
+  // Handler to use revised prompt
+  const handleUseRevised = useCallback(() => {
+    if (state?.revisedPrompt) {
+      setPrompt(state.revisedPrompt);
+      // Auto-submit to recheck the revised prompt
+      setTimeout(() => {
+        formRef.current?.requestSubmit();
+      }, 100);
+    }
+  }, [state?.revisedPrompt]);
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-6">
@@ -49,6 +62,8 @@ export function PromptForm() {
                 ref={textareaRef}
                 id="prompt"
                 name="prompt"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
                 placeholder="E.g., 'A magical wizard casting spells in an ancient castle'"
                 className="min-h-32 resize-y"
                 required
@@ -78,8 +93,25 @@ export function PromptForm() {
 
       {/* Results Section */}
       {state && (
-        <div id="results">
+        <div id="results" className="space-y-4">
           <ViolationList result={state} />
+
+          {/* Revised Prompt Card */}
+          {state.revisedPrompt && state.revisionMethod && state.revisionMethod !== 'none' && (
+            <RevisedPromptCard
+              originalPrompt={prompt}
+              revisedPrompt={state.revisedPrompt}
+              revisionMethod={state.revisionMethod}
+              onUseRevised={handleUseRevised}
+            />
+          )}
+
+          {/* Show error if revision failed */}
+          {state.revisionError && (
+            <div className="text-sm text-yellow-600 dark:text-yellow-400 p-3 bg-yellow-50 dark:bg-yellow-950/30 rounded-lg border border-yellow-200 dark:border-yellow-900">
+              ⚠️ {state.revisionError}
+            </div>
+          )}
         </div>
       )}
     </div>

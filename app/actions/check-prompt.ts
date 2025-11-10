@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { rewritePrompt } from '@/lib/openai';
 import { CheckResult, Violation, SeverityLevel, CategoryType } from '@/types/copyright';
 import { z } from 'zod';
 
@@ -161,6 +162,21 @@ export async function checkPrompt(
       message = `ℹ️ Found ${violations.length} minor issue(s). Consider revising for best results.`;
     }
 
+    // Automatically generate revised prompt if violations found
+    let revisedPrompt: string | undefined;
+    let revisionMethod: 'llm' | 'rule-based' | 'none' = 'none';
+    let revisionError: string | undefined;
+
+    if (violations.length > 0) {
+      try {
+        revisedPrompt = await rewritePrompt(prompt, violations);
+        revisionMethod = process.env.OPENAI_API_KEY ? 'llm' : 'rule-based';
+      } catch (error) {
+        console.error('Error generating revised prompt:', error);
+        revisionError = 'Could not generate revised prompt automatically';
+      }
+    }
+
     return {
       success: true,
       violations,
@@ -170,6 +186,9 @@ export async function checkPrompt(
       hasMinorViolations,
       message,
       checkedAt: new Date().toISOString(),
+      revisedPrompt,
+      revisionMethod,
+      revisionError,
     };
   } catch (error) {
     console.error('Error checking prompt:', error);

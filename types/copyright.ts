@@ -40,6 +40,10 @@ export interface CheckResult {
   hasMinorViolations: boolean;
   message?: string;
   checkedAt: string;
+  // Automatic prompt revision fields
+  revisedPrompt?: string;
+  revisionMethod?: 'llm' | 'rule-based' | 'none';
+  revisionError?: string;
 }
 
 // Request to check a prompt
