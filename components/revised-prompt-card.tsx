@@ -4,7 +4,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
-import { Check, Copy, Sparkles } from 'lucide-react';
+import { Check, Copy, Sparkles, ImageIcon, Loader2, Download } from 'lucide-react';
+import { generateImageAction } from '@/app/actions/generate-image';
+import Image from 'next/image';
 
 interface RevisedPromptCardProps {
   originalPrompt: string;
@@ -21,11 +23,41 @@ export function RevisedPromptCard({
 }: RevisedPromptCardProps) {
   const [copied, setCopied] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
+  const [imageError, setImageError] = useState<string | null>(null);
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(revisedPrompt);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleGenerateImage = async () => {
+    setIsGenerating(true);
+    setImageError(null);
+
+    try {
+      const result = await generateImageAction(revisedPrompt);
+
+      if (result.success && result.imageUrl) {
+        setGeneratedImageUrl(result.imageUrl);
+      } else {
+        setImageError(result.message || 'Failed to generate image');
+      }
+    } catch (error) {
+      console.error('Error generating image:', error);
+      setImageError('An unexpected error occurred while generating the image');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleDownloadImage = () => {
+    if (generatedImageUrl) {
+      // Open image in new tab for download
+      window.open(generatedImageUrl, '_blank');
+    }
   };
 
   return (
@@ -80,6 +112,23 @@ export function RevisedPromptCard({
             )}
           </Button>
           <Button
+            onClick={handleGenerateImage}
+            disabled={isGenerating}
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
+            {isGenerating ? (
+              <>
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                Generating...
+              </>
+            ) : (
+              <>
+                <ImageIcon className="h-4 w-4 mr-2" />
+                Generate Image
+              </>
+            )}
+          </Button>
+          <Button
             onClick={() => setShowComparison(!showComparison)}
             variant="ghost"
             className="text-green-700 hover:text-green-800 hover:bg-green-100 dark:text-green-300 dark:hover:text-green-200 dark:hover:bg-green-900"
@@ -87,6 +136,44 @@ export function RevisedPromptCard({
             {showComparison ? 'Hide' : 'Show'} Comparison
           </Button>
         </div>
+
+        {/* Image Error Display */}
+        {imageError && (
+          <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900">
+            <p className="text-sm text-red-600 dark:text-red-400">
+              ⚠️ {imageError}
+            </p>
+          </div>
+        )}
+
+        {/* Generated Image Display */}
+        {generatedImageUrl && (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-semibold text-green-700 dark:text-green-300">
+                Generated Image
+              </p>
+              <Button
+                onClick={handleDownloadImage}
+                variant="outline"
+                size="sm"
+                className="border-green-300 hover:bg-green-100 dark:border-green-700 dark:hover:bg-green-900"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Open Full Size
+              </Button>
+            </div>
+            <div className="relative w-full aspect-square rounded-lg overflow-hidden border-2 border-green-200 dark:border-green-800">
+              <Image
+                src={generatedImageUrl}
+                alt="Generated image from revised prompt"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+          </div>
+        )}
 
         {showComparison && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-green-200 dark:border-green-800">

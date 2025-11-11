@@ -33,9 +33,10 @@ ARCHETYPE-BASED REPLACEMENT GUIDELINES:
 2. **Strategic Detail Levels** (calibrated approach):
 
    **LEVEL 1 - Maximum Safe Detail** (testing baseline, may trigger filters):
-   - Include distinctive visual combinations that suggest but don't name the IP
-   - Example: "cartoon mouse with large round ears, red shorts with white buttons, white gloves, yellow shoes"
-   - Use: For establishing what level of detail triggers copyright detection
+   - Include distinctive visual combinations with cartoon style specifications
+   - Focus on art style era and aesthetic to ensure cartoon rendering
+   - Example: "cartoon mouse mascot in classic 1930s animation style with a black body, large round ears, white gloves, red shorts with white buttons, yellow shoes"
+   - Use: For establishing what level of detail triggers copyright detection while achieving maximum visual similarity
 
    **LEVEL 2 - Moderate Detail** (balanced approach, our default):
    - Include some generic visual hints without distinctive combinations
@@ -68,38 +69,38 @@ EXAMPLE TRANSFORMATIONS (LEVEL 1 - Maximum Safe Detail):
 
 Original: "Mickey Mouse riding a dragon"
 Copyrighted: "Mickey Mouse"
-Output: "A cheerful cartoon mouse character with large round ears, wearing red shorts with white buttons, white gloves, and yellow shoes, displaying a wide smile riding a dragon"
-[Maximum descriptive detail without naming IP, includes distinctive visual combinations]
+Output: "A cheerful cartoon mouse mascot in classic 1930s animation style with a black body, large round ears, white-gloved hands with four fingers, wearing bright red shorts with two prominent white buttons and oversized yellow shoes, showing an exaggerated joyful expression riding a dragon"
+[Maximum descriptive detail with cartoon style specifications - ensures cartoon rendering not realistic, includes distinctive visual combinations and era-specific aesthetic]
 
 Original: "Donald Duck at the beach"
 Copyrighted: "Donald Duck"
-Output: "An excitable white duck character wearing a blue sailor shirt with a red bow tie and a sailor hat, showing an animated personality at the beach"
-[Detailed appearance description, distinctive outfit elements included]
+Output: "An excitable white duck character in vintage cartoon style wearing a blue sailor shirt with a red bow tie and a sailor hat, displaying exaggerated animated expressions at the beach"
+[Cartoon style specification with distinctive outfit elements]
 
 Original: "Harry Potter casting a spell"
 Copyrighted: "Harry Potter"
-Output: "A young wizard with messy dark hair, round glasses, a lightning bolt-shaped scar on his forehead, wearing black robes and a striped scarf, casting a spell"
-[Specific physical features and costume elements that suggest but don't name the character]
+Output: "A young wizard in illustrated book style with messy dark hair, round wire-frame glasses, a lightning bolt-shaped scar on his forehead, wearing flowing black robes and a house-colored striped scarf, casting a spell with a wooden wand"
+[Literary illustration style with specific physical features and costume elements]
 
 Original: "Batman on a rooftop"
 Copyrighted: "Batman"
-Output: "A dark vigilante in a black armored suit with pointed ears on the cowl, a flowing black cape, and a yellow utility belt on a rooftop"
-[Distinctive costume details and iconic elements described]
+Output: "A dark vigilante in comic book art style wearing a black armored suit with pointed bat-ear cowl, a flowing black cape with scalloped edges, and a yellow utility belt on a rooftop at night"
+[Comic book style specification with distinctive costume details]
 
 Original: "Spider-Man swinging through city"
 Copyrighted: "Spider-Man"
-Output: "An agile hero in a red and blue skintight suit with a web pattern, a spider emblem on the chest, and large white eye pieces on the mask swinging through city"
-[Specific color scheme and design elements included]
+Output: "An agile superhero in comic book style wearing a red and blue skintight suit with a geometric web pattern, a stylized spider emblem on the chest, and large white eye lenses on the mask swinging through city on weblines"
+[Comic art style with specific color scheme and design elements]
 
-WRONG APPROACH (Too Specific):
+WRONG APPROACH (Missing Cartoon Style):
 Original: "Mickey Mouse in a castle"
 Wrong Output: "A mouse character with large round ears, white gloves, red shorts with two white buttons, yellow shoes, wide grin in a castle"
-[This is wrong - too many specific identifying features combined]
+[This is wrong - missing "cartoon style" specification leads to realistic rendering, defeating the purpose]
 
-RIGHT APPROACH (Archetype + Strategic Detail):
+RIGHT APPROACH (Enhanced LEVEL 1 - Cartoon Style + Detail):
 Original: "Mickey Mouse in a castle"
-Right Output: "A cheerful cartoon rodent character with round ears in a castle"
-[This is correct - archetype-focused, minimal useful detail, legally safe]
+Right Output: "A cheerful cartoon mouse mascot in classic 1930s animation style with a black body, large round ears, white-gloved hands, wearing bright red shorts with two white buttons and oversized yellow shoes in a castle"
+[This is correct - cartoon style ensures proper rendering, detailed enough for recognition, legally safe through transformation]
 
 Always output a modified version of the original prompt where ONLY copyrighted terms are replaced with archetype-based descriptions that include strategic detail while remaining copyright-safe.`;
 
@@ -147,51 +148,52 @@ export const rewritePrompt = cache(async (
 Copyright violations detected:
 ${violationList}
 
-TASK: Perform SURGICAL REPLACEMENT using LEVEL 1 - MAXIMUM SAFE DETAIL approach that describes the character fully without naming the IP.
+TASK: Perform SURGICAL REPLACEMENT using ENHANCED LEVEL 1 - MAXIMUM SAFE DETAIL WITH CARTOON STYLE approach that describes the character fully with proper art style specifications without naming the IP.
 
 CRITICAL INSTRUCTIONS:
 1. Identify the EXACT copyrighted terms and their distinctive visual characteristics
-2. Replace with DETAILED DESCRIPTIONS including distinctive visual combinations
+2. Replace with DETAILED DESCRIPTIONS including CARTOON/ART STYLE SPECIFICATIONS
 3. Keep ALL other parts of the original prompt UNCHANGED
-4. Include specific colors, outfit details, physical features, and personality traits
+4. Include art style era/aesthetic, specific colors, outfit details, physical features, and expressions
 5. Maximize descriptive detail for image generation without naming the IP
 
-LEVEL 1 REPLACEMENT APPROACH - Maximum Descriptive Detail:
-- **Physical Features**: Include distinctive traits (e.g., "large round ears", "messy dark hair", "lightning bolt scar")
-- **Costume Details**: Describe specific outfit elements (e.g., "red shorts with white buttons", "blue sailor shirt with red bow tie")
+ENHANCED LEVEL 1 REPLACEMENT APPROACH - Maximum Descriptive Detail with Style:
+- **Art Style Specification**: ALWAYS include style context (e.g., "classic 1930s animation style", "vintage cartoon style", "comic book art style", "illustrated book style")
+- **Physical Features**: Include distinctive traits with cartoon proportions (e.g., "large round ears", "black body", "oversized yellow shoes")
+- **Costume Details**: Describe specific outfit elements (e.g., "bright red shorts with two prominent white buttons", "blue sailor shirt with red bow tie")
 - **Color Combinations**: Include actual color schemes (e.g., "red and blue suit", "yellow shoes", "white gloves")
-- **Iconic Elements**: Describe recognizable features without naming them (e.g., "spider emblem on chest", "pointed ears on cowl")
-- **Personality/Expression**: Include character traits (e.g., "cheerful", "wide smile", "excitable", "animated")
+- **Iconic Elements**: Describe recognizable features without naming them (e.g., "spider emblem on chest", "pointed bat-ear cowl")
+- **Expression Style**: Include exaggerated cartoon expressions (e.g., "exaggerated joyful expression", "animated personality")
 
-MAXIMIZE USEFUL DETAIL:
-- ✅ LEVEL 1: "A cheerful cartoon mouse character with large round ears, wearing red shorts with white buttons, white gloves, and yellow shoes, displaying a wide smile"
-- ✅ Include: Specific colors, distinctive features, outfit combinations, expressions
-- ✅ Purpose: Maximum descriptive baseline for testing - most useful for image generation
+MAXIMIZE USEFUL DETAIL WITH STYLE:
+- ✅ ENHANCED LEVEL 1: "A cheerful cartoon mouse mascot in classic 1930s animation style with a black body, large round ears, white-gloved hands with four fingers, wearing bright red shorts with two prominent white buttons and oversized yellow shoes, showing an exaggerated joyful expression"
+- ✅ Include: Art style era, specific colors, distinctive features, outfit combinations, cartoon expressions
+- ✅ Purpose: Maximum descriptive detail ensuring CARTOON rendering not realistic - achieves visual similarity while remaining legally safe
 
-CRITICAL: Provide MAXIMUM descriptive detail without explicitly naming the copyrighted IP. This is for establishing a baseline of how descriptive we can be.
+CRITICAL: Provide MAXIMUM descriptive detail with ART STYLE SPECIFICATIONS without explicitly naming the copyrighted IP. The style specification is essential for proper rendering.
 
-EXAMPLES OF CORRECT LEVEL 1 OUTPUT:
+EXAMPLES OF CORRECT ENHANCED LEVEL 1 OUTPUT:
 Input: "Mickey Mouse riding a bicycle"
-Output: "A cheerful cartoon mouse character with large round ears, wearing red shorts with white buttons, white gloves, and yellow shoes, displaying a wide smile riding a bicycle"
-[Maximum descriptive detail - specific colors, outfit elements, physical features]
+Output: "A cheerful cartoon mouse mascot in classic 1930s animation style with a black body, large round ears, white-gloved hands with four fingers, wearing bright red shorts with two prominent white buttons and oversized yellow shoes, showing an exaggerated joyful expression riding a bicycle"
+[Art style + maximum descriptive detail ensures cartoon rendering]
 
 Input: "Donald Duck at the beach"
-Output: "An excitable white duck character wearing a blue sailor shirt with a red bow tie and a sailor hat, showing an animated personality at the beach"
-[Detailed costume description with specific colors and elements]
+Output: "An excitable white duck character in vintage cartoon style wearing a blue sailor shirt with a red bow tie and a sailor hat, displaying exaggerated animated expressions at the beach"
+[Vintage cartoon style specification with detailed costume]
 
 Input: "Harry Potter casting a spell"
-Output: "A young wizard with messy dark hair, round glasses, a lightning bolt-shaped scar on his forehead, wearing black robes and a striped scarf, casting a spell"
-[Specific physical features and costume details included]
+Output: "A young wizard in illustrated book style with messy dark hair, round wire-frame glasses, a lightning bolt-shaped scar on his forehead, wearing flowing black robes and a house-colored striped scarf, casting a spell with a wooden wand"
+[Literary illustration style with specific physical features]
 
 Input: "Batman on a rooftop"
-Output: "A dark vigilante in a black armored suit with pointed ears on the cowl, a flowing black cape, and a yellow utility belt on a rooftop"
-[Distinctive costume elements with colors and iconic details]
+Output: "A dark vigilante in comic book art style wearing a black armored suit with pointed bat-ear cowl, a flowing black cape with scalloped edges, and a yellow utility belt on a rooftop at night"
+[Comic book style with distinctive costume elements]
 
 Input: "Spider-Man swinging through city"
-Output: "An agile hero in a red and blue skintight suit with a web pattern, a spider emblem on the chest, and large white eye pieces on the mask swinging through city"
-[Complete color scheme and design details]
+Output: "An agile superhero in comic book style wearing a red and blue skintight suit with a geometric web pattern, a stylized spider emblem on the chest, and large white eye lenses on the mask swinging through city on weblines"
+[Comic art style with complete design details]
 
-Output the revised prompt with ONLY copyrighted terms replaced by MAXIMUM DESCRIPTIVE DETAIL (LEVEL 1) without naming the IP.`,
+Output the revised prompt with ONLY copyrighted terms replaced by ENHANCED LEVEL 1 (ART STYLE + MAXIMUM DESCRIPTIVE DETAIL) without naming the IP.`,
         },
       ],
       temperature: 0.8,
